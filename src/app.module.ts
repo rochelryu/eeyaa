@@ -1,3 +1,4 @@
+import { AuthModule } from './auth/auth.module';
 import { EtatModule } from './etat/etat.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/exception.filter';
@@ -14,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forRoot(),
     EtatModule,
     ProjectsModule,

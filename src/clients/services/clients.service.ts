@@ -26,7 +26,7 @@ export class ClientsService {
     }
     
     // compare passwords    
-    const areEqual = await compare(client.password, password);
+    const areEqual = await compare(password, client.password);
     
     if (!areEqual) {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);    
