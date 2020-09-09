@@ -22,7 +22,7 @@ export class ClientsEntity extends BaseEntity {
   address: string;
 
 	@Column()
-	registCommerce: string;
+	registreCommerce: string;
 
 	@Column()
   describe: string;

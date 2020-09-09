@@ -10,9 +10,11 @@ import { AuthenticatedModule } from './common/middleware/authenticated.module';
 import { CompetencesModule } from './competences/competences.module';
 import { ClientsModule } from './clients/clients.module';
 import { AdminModule } from './admin/admin.module';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(),
     EtatModule,
     ProjectsModule,
     UsersModule,
