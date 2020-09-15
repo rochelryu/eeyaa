@@ -1,3 +1,5 @@
+import { FormationModule } from './formation/formation.module';
+import { ContenuModule } from './contenu/contenu.module';
 import { AuthModule } from './auth/auth.module';
 import { EtatModule } from './etat/etat.module';
 import { APP_FILTER } from '@nestjs/core';
@@ -15,6 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 
 @Module({
   imports: [
+    FormationModule,
+    ContenuModule,
     AuthModule,
     TypeOrmModule.forRoot(),
     EtatModule,
@@ -34,4 +38,4 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
     AppService,
   ],
 })
-export class AppModule {}
+export class AppModule { }
