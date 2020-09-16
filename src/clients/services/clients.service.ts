@@ -1,15 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcrypt';
 import { ClientDto, CreateClientDto, LoginClientDto } from 'src/clients/dto/CreateClient.dto';
 import { ClientsEntity } from 'src/clients/schema/clients.entity';
+import { ResponseInterface } from 'src/common/interfaces/ResponseInterface';
 import { toClientDto } from 'src/shared/mapper';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientsService {
 
-  constructor(@InjectRepository(ClientsEntity) private readonly clientsRepo: Repository<ClientsEntity>) { }
+  constructor(
+    @InjectRepository(ClientsEntity) private readonly clientsRepo: Repository<ClientsEntity>,
+    private jwtService: JwtService
+  ) { }
   
 
   async findOneForJWT(options?: object): Promise<ClientDto> {
@@ -18,7 +23,7 @@ export class ClientsService {
   }
 
 
-  async findByLogin({ email, password }: LoginClientDto): Promise<ClientDto> {    
+  async findClientByLoginClientDto({ email, password }: LoginClientDto): Promise<ResponseInterface| Error> {    
     const client = await this.clientsRepo.findOne({ where: { email } });
     
     if (!client) {
@@ -32,28 +37,34 @@ export class ClientsService {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);    
     }
     
-    return toClientDto(client);  
+    const payload = toClientDto(client);
+    const jwt = await this.jwtService.sign(payload);
+    
+    return { access_token: jwt }
   }
 
-  async findByPayload({ email }: any): Promise<ClientDto> {
-    return await this.findOneForJWT({ 
-        where:  { email } });  
-  }
-
-  async create(clientDto: CreateClientDto): Promise<ClientDto> {    
+  async create(clientDto: CreateClientDto):  Promise<ResponseInterface| Error> {    
     const { nameEntreprise, password, email, address, registreCommerce, describe, name, birthDate, fonctions } = clientDto;
     
     // check if the user exists in the db    
     const userInDb = await this.clientsRepo.findOne({ 
-        where: { email } 
+      where: [
+        { email },
+        { nameEntreprise },
+        { registreCommerce },
+        ] 
     });
     if (userInDb) {
-        throw new HttpException('Client already exists', HttpStatus.BAD_REQUEST);    
+        throw new HttpException('Ce Client existe déjà', HttpStatus.BAD_REQUEST);    
     }
     
-    const user: ClientsEntity = await this.clientsRepo.create({ nameEntreprise, password, email, address, registreCommerce, describe, name, birthDate, fonctions });
-    await this.clientsRepo.save(user);
-    return toClientDto(user);  
+    const client: ClientsEntity = await this.clientsRepo.create({ nameEntreprise, password, email, address, registreCommerce, describe, name, birthDate, fonctions });
+    await this.clientsRepo.save(client);
+
+    const payload = toClientDto(client);
+    const jwt = await this.jwtService.sign(payload);
+    
+    return { access_token: jwt } 
   }
 
 
