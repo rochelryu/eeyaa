@@ -1,25 +1,35 @@
 import {
-	Entity,
-	Column,
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	UpdateDateColumn,
-	BaseEntity,
-	OneToMany,
-} from 'typeorm';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  OneToMany,
+} from "typeorm";
 
-import { SectionEntity } from '../../section/schema/section.entity'
+import { SectionEntity } from "../../section/schema/section.entity";
+
 @Entity()
 export class FormationEntity extends BaseEntity {
-	@PrimaryGeneratedColumn() id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column({ length: 25 })
-	name: string;
+  @Column({ length: 25 })
+  title: string;
 
-	@CreateDateColumn() create_at: Date;
+  @Column()
+  picture: string;
 
-	@UpdateDateColumn() updated_at: Date;
+  @Column({ type: "text" })
+  description: string;
 
-	@OneToMany(type => SectionEntity, section => section.formation)
-	sections: SectionEntity[]
+  @CreateDateColumn()
+  create_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @OneToMany((type) => SectionEntity, (section) => section.formation)
+  sections: SectionEntity[];
 }
