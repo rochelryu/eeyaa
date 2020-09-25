@@ -26,50 +26,48 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Backend](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Frontend](https://angular.io/) framework TypeScript starter repository.
 
 ## Installation
 
 ```bash
+$ cd STACK\ BACK/
 $ npm install
+$ cd ../FRONT/
+$ npm install
+$ cd ../
 ```
+
+## PreRunning the app
+
+CREATE DATABASE eeyaa_db IF NOT EXIST
+Verify if your MYSQL RUNNING ON PORT 3306 (DEFAULT PORT)
+
 
 ## Running the app
 
 ```bash
-# development
+# In Folder STACK BACK
 $ npm run start
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# In Folder FRONT
+$ ng serve --open
 ```
 
 ## Test
 
 ```bash
-# unit tests
+# In Folder STACK BACK
 $ npm run test
 
-# e2e tests
+# In Folder STACK BACK e2e tests
 $ npm run test:e2e
 
-# test coverage
+# In Folder STACK BACK test coverage
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+  eeyaa is [MIT licensed](LICENSE).
